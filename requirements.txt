@@ -1,0 +1,7 @@
+# pip install -r requirements.txt 
+redis==4.5.4
+influxdb-client==1.36.1
+#influxdb-client[ciso]==1.36.1
+redis==4.5.4
+astral==2.2
+#redis[hiredis]>=1.2

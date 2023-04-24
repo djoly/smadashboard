@@ -1,0 +1,43 @@
+version: "3.7"
+services:
+  grafana:
+    image: docker.io/grafana/grafana-oss:8.2.6
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=nimda1234
+    ports:
+      - "3000:80"
+    volumes:
+      - "grafana_data:/var/lib/grafana"
+    
+  influxdb: 
+    image: docker.io/influxdb:2.7.0-alpine
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=nimda1234
+      - DOCKER_INFLUXDB_INIT_ORG=pv_data
+      - DOCKER_INFLUXDB_INIT_BUCKET=pv_data
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=ovMm-o8jjzQpAjRsDUNrm5ZK_XexNqiguld37aYfte2IYKtOM8VID9MUOsipJTSuKp_IrnHLSLNjnorlqau0Tg==
+    ports:
+      - "8086:8086"
+    volumes:
+      - 'influxdb_data:/var/lib/influxdb2'
+
+  redis:
+    image: docker.io/bitnami/redis:7.0
+    environment:
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+      - REDIS_PASSWORD=nimda1234
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redis_data:/bitnami/redis/data'
+
+volumes:
+  grafana_data:
+    driver: local
+  influxdb_data:
+    driver: local
+  redis_data:
+    driver: local
