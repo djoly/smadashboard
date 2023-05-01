@@ -1,7 +1,9 @@
 version: "3.7"
 services:
   grafana:
+    host_network: true
     image: docker.io/grafana/grafana-oss:8.2.6
+    restart: always
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=nimda1234
@@ -11,7 +13,10 @@ services:
       - "grafana_data:/var/lib/grafana"
     
   influxdb: 
+    host_network: true
     image: docker.io/influxdb:2.7.0-alpine
+
+    restart: always
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=admin
@@ -25,7 +30,9 @@ services:
       - 'influxdb_data:/var/lib/influxdb2'
 
   redis:
+    host_network: true
     image: docker.io/bitnami/redis:7.0
+    restart: always
     environment:
       - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
       - REDIS_PASSWORD=nimda1234
@@ -33,6 +40,39 @@ services:
       - '6379:6379'
     volumes:
       - 'redis_data:/bitnami/redis/data'
+
+    mosquitto:
+      host_network: true
+      image: "eclipse-mosquitto:2.0.15"
+      restart: always
+      ports:
+        - "1883:1883"
+        - "9001:9001"
+      volumes:
+        - "./mosquitto/data:/mosquitto/data"
+        - "./mosquitto/log:/mosquitto/log"
+        - "./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf"
+
+    yasdi2mqtt:
+      host_network: true
+      image: "pkwagner/yasdi2mqtt:stable-alpine"
+      restart: always
+      volumes:
+          - "./devices:/etc/yasdi2mqtt/devices"
+          - "./yasdi.ini:/etc/yasdi2mqtt/yasdi.ini:ro"
+      devices: 
+          - "/dev/ttyUSB0:/dev/ttyUSB0"
+      environment:
+          YASDI_CONFIG: "/etc/yasdi2mqtt/yasdi.ini"
+          YASDI_DRIVER_ID: 0
+          YASDI_MAX_DEVICE_COUNT: 1
+          YASDI_UPDATE_INTERVAL: 15
+          MQTT_TOPIC_PREFIX: "sunnyisland"
+          MQTT_SERVER: "localhost"
+          MQTT_PORT: 1883
+          LOG_LEVEL: 0 #debug level
+          #MQTT_USER: "johndoe"
+          #MQTT_PASSWORD: "sEcReT"
 
 volumes:
   grafana_data:
