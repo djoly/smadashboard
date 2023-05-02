@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3"
 services:
   grafana:
     image: docker.io/grafana/grafana-oss:8.2.6
@@ -40,6 +40,7 @@ services:
 
   mosquitto:
     image: "eclipse-mosquitto:2.0.15"
+    network_mode: host
     restart: always
     ports:
       - "1883:1883"
@@ -51,6 +52,9 @@ services:
 
   yasdi2mqtt:
     image: "pkwagner/yasdi2mqtt:stable-alpine"
+    network_mode: host
+    depends_on:
+      - mosquitto
     restart: always
     volumes:
         - "./devices:/etc/yasdi2mqtt/devices"
