@@ -1,19 +1,38 @@
-version: "3"
+#
+# NOTICE: Influxdb must be started first, initially, to create the tokens for writing and reading data. These
+# will be used by the data collector scripts and grafana.
+# $ docker compose up influxdb
+#
+# $ docker compose --profile test up
+# $ docker compose --profile prod up
+# 
+version: "3.7"
 services:
   grafana:
     image: docker.io/grafana/grafana-oss:8.2.6
+    network_mode: host
+    profiles:
+      - test
+      - prod
     restart: always
+    depends_on:
+      - redis
+      - influxdb
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=nimda1234
+      - GF_INSTALL_PLUGINS=redis-datasource
     ports:
-      - "3000:80"
+      - "3000:3000"
     volumes:
       - "grafana_data:/var/lib/grafana"
     
   influxdb: 
     image: docker.io/influxdb:2.7.0-alpine
-
+    network_mode: host
+    profiles:
+      - test
+      - prod
     restart: always
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
@@ -29,6 +48,10 @@ services:
 
   redis:
     image: docker.io/bitnami/redis:7.0
+    network_mode: host
+    profiles:
+      - test
+      - prod
     restart: always
     environment:
       - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
@@ -41,6 +64,9 @@ services:
   mosquitto:
     image: "eclipse-mosquitto:2.0.15"
     network_mode: host
+    profiles:
+      - test
+      - prod
     restart: always
     ports:
       - "1883:1883"
@@ -55,6 +81,8 @@ services:
     network_mode: host
     depends_on:
       - mosquitto
+    profiles:
+      - prod
     restart: always
     volumes:
         - "./devices:/etc/yasdi2mqtt/devices"
@@ -70,8 +98,100 @@ services:
         MQTT_SERVER: "localhost"
         MQTT_PORT: 1883
         LOG_LEVEL: 0 #debug level
-        #MQTT_USER: "johndoe"
-        #MQTT_PASSWORD: "sEcReT"
+
+  sunnyislanddatacollector:
+    container_name: sunnyislanddatacollector
+    build:
+      context: ./sunnyislanddatacollector
+      dockerfile: Dockerfile.yml
+    network_mode: host
+    depends_on:
+      - redis
+      - influxdb
+    profiles:
+      - test
+      - prod
+    command:
+      - /bin/bash
+      - -c
+      - |
+        cd /app
+        python3 sunnyislanddatacollector.py --mqtttopic "sunnyisland/1260000000" --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data
+
+  mocksunnyislanddata:
+    container_name: mocksunnyislanddata
+    build:
+      context: ./mocksunnyislanddata
+      dockerfile: Dockerfile.yml
+    network_mode: host
+    depends_on:
+      - mosquitto
+    profiles:
+      - test
+    command:
+      - /bin/bash
+      - -c
+      - |
+        cd /app
+        python3 mocksunnyislanddatapublisher.py --mqtttopic "sunnyisland/1260000000"
+
+
+  sunnyboydatacollector:
+    container_name: sunnyboydatacollector
+    build:
+      context: ./sunnyboydatacollector
+      dockerfile: Dockerfile.yml
+    network_mode: host
+    depends_on:
+      - redis
+      - influxdb
+    profiles:
+      - prod
+    command:
+      - /bin/bash
+      - -c
+      - |
+        cd /app
+        python3 sunnyboydatacollector.py --sunnyboyhost sma3000000001 --invid sunnyboy1 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86
+        python3 sunnyboydatacollector.py --sunnyboyhost sma3000000002 --invid sunnyboy2 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86
+
+  #This container runs the same scripts as the sunnyboydatacollector container, but it passes the -t flag in when triggering the script.
+  mocksunnyboydatacollector:
+    container_name: mocksunnyboydatacollector
+    build:
+      context: ./sunnyboydatacollector
+      dockerfile: Dockerfile.yml
+    network_mode: host
+    depends_on:
+      - redis
+      - influxdb
+    profiles:
+      - test
+    command:
+      - /bin/bash
+      - -c
+      - |
+        cd /app
+        python3 sunnyboydatacollector.py --sunnyboyhost sma3000000001 --invid sunnyboy1 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86 -t
+
+  mocksunnyboydatacollector2:
+    container_name: mocksunnyboydatacollector2
+    build:
+      context: ./sunnyboydatacollector
+      dockerfile: Dockerfile.yml
+    network_mode: host
+    depends_on:
+      - redis
+      - influxdb
+    profiles:
+      - test
+    command:
+      - /bin/bash
+      - -c
+      - |
+        cd /app
+        python3 sunnyboydatacollector.py --sunnyboyhost sma3000000002 --invid sunnyboy2 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86 -t
+
 
 volumes:
   grafana_data:

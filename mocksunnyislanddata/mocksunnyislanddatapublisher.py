@@ -1,5 +1,5 @@
 import paho.mqtt.client as mqtt
-import datetime,time, pytz, json, argparse, logging
+import datetime, time, pytz, json, argparse, logging
 
 logger = logging.getLogger("Mock Save Sunny Island Data Publisher Script")
 
@@ -20,7 +20,9 @@ def main():
     
     while(True):
         try:
-            testJsonData["time"] = round(time.time())
+            now = pytz.UTC.localize(datetime.datetime.utcnow())
+            logger.info(f'Publishing mock data to topic {args.mqtttopic}')
+            testJsonData["time"] = round(now.timestamp())
             client.connect(args.mqtthost, args.mqttport, 60)
             client.publish(args.mqtttopic, json.dumps(testJsonData))
             client.disconnect()

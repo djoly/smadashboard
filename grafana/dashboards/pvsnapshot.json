@@ -1,0 +1,1573 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "description": "Minimal system data",
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": 2,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 22,
+        "title": "Grid Stats",
+        "type": "row"
+      },
+      {
+        "datasource": "InfluxDB-Flux",
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "match": "empty",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 0,
+                    "text": "0"
+                  }
+                },
+                "type": "special"
+              },
+              {
+                "options": {
+                  "match": "null+nan",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 1,
+                    "text": "0"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "watt"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 0,
+          "y": 1
+        },
+        "id": 24,
+        "libraryPanel": {
+          "meta": {
+            "connectedDashboards": 1,
+            "created": "2023-05-03T03:51:28Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "",
+            "folderUid": "",
+            "updated": "2023-05-03T04:05:19.989844644Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "Current Sunny Boy 1 Power (W)",
+          "uid": "1CKzfxyVk",
+          "version": 2
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "query": "from(bucket:\"pv_data\")\n|>range(start:-5m)\n|>filter(fn: (r) => r._measurement == \"pv_ac_measurements\" and r._field == \"grid_total_watts\" and r.inv_id == \"sunnyboy1\")\n|>last()",
+            "refId": "A"
+          }
+        ],
+        "title": "Current Sunny Boy 1 Power (W)",
+        "type": "stat"
+      },
+      {
+        "datasource": "InfluxDB-Flux",
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "match": "empty",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 0,
+                    "text": "0"
+                  }
+                },
+                "type": "special"
+              },
+              {
+                "options": {
+                  "match": "null+nan",
+                  "result": {
+                    "color": "dark-green",
+                    "index": 1,
+                    "text": "0"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "watt"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 3,
+          "y": 1
+        },
+        "id": 26,
+        "libraryPanel": {
+          "meta": {
+            "connectedDashboards": 1,
+            "created": "2023-05-03T03:51:48Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "",
+            "folderUid": "",
+            "updated": "2023-05-03T04:06:21.541038489Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "Current Sunny Boy 2 Power (W)",
+          "uid": "Akezfbs4z",
+          "version": 2
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "query": "from(bucket:\"pv_data\")\n|>range(start:-5m)\n|>filter(fn: (r) => r._measurement == \"pv_ac_measurements\" and r._field == \"grid_total_watts\" and r.inv_id == \"sunnyboy2\")\n|>last()",
+            "refId": "A"
+          }
+        ],
+        "title": "Current Sunny Boy 2 Power (W)",
+        "type": "stat"
+      },
+      {
+        "datasource": "InfluxDB-Flux",
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "watt"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 6,
+          "y": 1
+        },
+        "id": 32,
+        "libraryPanel": {
+          "meta": {
+            "connectedDashboards": 0,
+            "created": "2023-05-03T04:03:29.707680645Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "",
+            "folderUid": "",
+            "updated": "2023-05-03T04:03:29.707680697Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "Current Sunny Island Master Power (W)",
+          "uid": "Kvcyfxs4z",
+          "version": 1
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "query": "from(bucket:\"pv_data\")\n|>range(start:-10m)\n|>filter(fn: (r) => r._measurement == \"ac_measurements\" and r._field == \"simaster_watts\")\n|>last()",
+            "refId": "A"
+          }
+        ],
+        "title": "Current Sunny Island Master Power (W)",
+        "type": "stat"
+      },
+      {
+        "datasource": null,
+        "description": "Total power produced by Sunny Boy 1 today",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "watth"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 0,
+          "y": 6
+        },
+        "id": 36,
+        "libraryPanel": {
+          "meta": {
+            "connectedDashboards": 0,
+            "created": "2023-05-03T04:15:44.538282203Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "",
+            "folderUid": "",
+            "updated": "2023-05-03T04:15:44.538282288Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "Sunny Boy 1 Today",
+          "uid": "_9wpYxsVk",
+          "version": 1
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "command": "get",
+            "keyName": "pv_total_sunnyboy1",
+            "query": "",
+            "refId": "A",
+            "type": "command"
+          }
+        ],
+        "title": "Sunny Boy 1 Today",
+        "type": "stat"
+      },
+      {
+        "datasource": null,
+        "description": "Total power produced by Sunny Boy 1 today",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "watth"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 3,
+          "y": 6
+        },
+        "id": 38,
+        "libraryPanel": {
+          "meta": {
+            "connectedDashboards": 0,
+            "created": "2023-05-03T04:15:51.898953733Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "",
+            "folderUid": "",
+            "updated": "2023-05-03T04:15:51.898953785Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "Sunny Boy 2 Today",
+          "uid": "lmkhYbs4z",
+          "version": 1
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "command": "get",
+            "keyName": "pv_total_sunnyboy2",
+            "query": "",
+            "refId": "A",
+            "type": "command"
+          }
+        ],
+        "title": "Sunny Boy 2 Today",
+        "type": "stat"
+      },
+      {
+        "datasource": "InfluxDB-Flux",
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "watt"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 6,
+          "y": 6
+        },
+        "id": 34,
+        "libraryPanel": {
+          "meta": {
+            "connectedDashboards": 0,
+            "created": "2023-05-03T04:03:15.292955174Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "",
+            "folderUid": "",
+            "updated": "2023-05-03T04:03:15.292955263Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "Current Sunny Island Slave 1 Power (W)",
+          "uid": "94qPBbsVk",
+          "version": 1
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "query": "from(bucket:\"pv_data\")\n|>range(start:-10m)\n|>filter(fn: (r) => r._measurement == \"ac_measurements\" and r._field == \"sislave1_watts\")\n|>last()",
+            "refId": "A"
+          }
+        ],
+        "title": "Current Sunny Island Slave 1 Power (W)",
+        "type": "stat"
+      },
+      {
+        "datasource": "InfluxDB-Flux",
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "volt"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 0,
+          "y": 11
+        },
+        "id": 40,
+        "libraryPanel": {
+          "meta": {
+            "connectedDashboards": 0,
+            "created": "2023-05-03T04:30:23.881779322Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "",
+            "folderUid": "",
+            "updated": "2023-05-03T04:30:23.881779375Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "L1 Voltage",
+          "uid": "vffNEbs4z",
+          "version": 1
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "query": "from(bucket:\"pv_data\")\n|>range(start:-10m)\n|>filter(fn: (r) => r._measurement == \"ac_measurements\" and r._field == \"simaster_voltage\")\n|>last()",
+            "refId": "A"
+          }
+        ],
+        "title": "L1 Voltage",
+        "type": "stat"
+      },
+      {
+        "datasource": "InfluxDB-Flux",
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "volt"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 3,
+          "y": 11
+        },
+        "id": 42,
+        "libraryPanel": {
+          "meta": {
+            "connectedDashboards": 0,
+            "created": "2023-05-03T04:30:16.357759954Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "",
+            "folderUid": "",
+            "updated": "2023-05-03T04:30:16.357760023Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "L2 Voltage",
+          "uid": "nDtHPbyVk",
+          "version": 1
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "query": "from(bucket:\"pv_data\")\n|>range(start:-10m)\n|>filter(fn: (r) => r._measurement == \"ac_measurements\" and r._field == \"sislave1_voltage\")\n|>last()",
+            "refId": "A"
+          }
+        ],
+        "title": "L2 Voltage",
+        "type": "stat"
+      },
+      {
+        "datasource": "InfluxDB-Flux",
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "rothz"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 6,
+          "y": 11
+        },
+        "id": 30,
+        "libraryPanel": {
+          "description": "",
+          "meta": {
+            "connectedDashboards": 1,
+            "created": "2023-05-03T02:17:34Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "General",
+            "folderUid": "",
+            "updated": "2023-05-03T03:57:56Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "Grid Frequency",
+          "type": "stat",
+          "uid": "0jtLhxsVk",
+          "version": 2
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "query": "from(bucket:\"pv_data\")\n|>range(start:-1d)\n|>filter(fn: (r) => r._measurement == \"ac_measurements\" and r._field == \"frequency\")\n|>last()",
+            "refId": "A"
+          }
+        ],
+        "title": "Grid Frequency",
+        "type": "stat"
+      },
+      {
+        "collapsed": false,
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 16
+        },
+        "id": 18,
+        "panels": [],
+        "title": "Battery Status",
+        "type": "row"
+      },
+      {
+        "datasource": "InfluxDB-Flux",
+        "description": "Most recent battery state of charge reading",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "max": 100,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 0
+                },
+                {
+                  "color": "orange",
+                  "value": 10
+                },
+                {
+                  "color": "yellow",
+                  "value": 20
+                },
+                {
+                  "color": "light-green",
+                  "value": 50
+                },
+                {
+                  "color": "dark-green",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 3,
+          "x": 0,
+          "y": 17
+        },
+        "id": 2,
+        "libraryPanel": {
+          "description": "Most recent battery state of charge reading",
+          "meta": {
+            "connectedDashboards": 1,
+            "created": "2023-05-03T01:29:00Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "General",
+            "folderUid": "",
+            "updated": "2023-05-03T03:35:13Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "SOC",
+          "type": "stat",
+          "uid": "CCT9Kby4k",
+          "version": 2
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "last"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "query": "from(bucket:\"pv_data\")\n|>range(start:-30m)\n|>filter(fn: (r) => r._measurement == \"battery_measurements\" and r._field == \"soc\")\n|>last()",
+            "refId": "A"
+          }
+        ],
+        "title": "SOC",
+        "type": "stat"
+      },
+      {
+        "datasource": "InfluxDB-Flux",
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "volt"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 3,
+          "x": 3,
+          "y": 17
+        },
+        "id": 14,
+        "libraryPanel": {
+          "description": "",
+          "meta": {
+            "connectedDashboards": 1,
+            "created": "2023-05-03T02:09:17Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "General",
+            "folderUid": "",
+            "updated": "2023-05-03T03:35:47Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "Current Battery Voltage",
+          "type": "stat",
+          "uid": "QoNV2xs4z",
+          "version": 3
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "query": "from(bucket:\"pv_data\")\n|>range(start:-1d)\n|>filter(fn: (r) => r._measurement == \"battery_measurements\" and r._field == \"voltage\")\n|>last()",
+            "refId": "A"
+          }
+        ],
+        "title": "Current Battery Voltage",
+        "type": "stat"
+      },
+      {
+        "datasource": "InfluxDB-Flux",
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "celsius"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 3,
+          "x": 6,
+          "y": 17
+        },
+        "id": 20,
+        "libraryPanel": {
+          "description": "",
+          "meta": {
+            "connectedDashboards": 1,
+            "created": "2023-05-03T02:43:10Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "General",
+            "folderUid": "",
+            "updated": "2023-05-03T03:36:05Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "Current Battery Temperature",
+          "type": "stat",
+          "uid": "YLDMAbs4k",
+          "version": 2
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "query": "from(bucket:\"pv_data\")\n|>range(start:-1d)\n|>filter(fn: (r) => r._measurement == \"battery_measurements\" and r._field == \"temp\")\n|>last()",
+            "refId": "A"
+          }
+        ],
+        "title": "Current Battery Temperature",
+        "type": "stat"
+      },
+      {
+        "collapsed": false,
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 23
+        },
+        "id": 16,
+        "panels": [],
+        "title": "Inverter Health",
+        "type": "row"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Error": {
+                    "color": "dark-red",
+                    "index": 1,
+                    "text": "ERROR"
+                  },
+                  "Operating": {
+                    "color": "dark-green",
+                    "index": 0,
+                    "text": "OK"
+                  },
+                  "Standby": {
+                    "color": "dark-blue",
+                    "index": 2,
+                    "text": "STANDBY"
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "match": "null+nan",
+                  "result": {
+                    "index": 3,
+                    "text": "UNKNOWN"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 3,
+          "x": 0,
+          "y": 24
+        },
+        "id": 8,
+        "interval": "2m",
+        "libraryPanel": {
+          "meta": {
+            "connectedDashboards": 1,
+            "created": "2023-05-03T03:11:49Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "",
+            "folderUid": "",
+            "updated": "2023-05-03T04:21:37.340119309Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "Sunny Island Slave 1 Status",
+          "uid": "sF8U1xy4z",
+          "version": 2
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "/^status_sunnyisland_slave1$/",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "command": "get",
+            "keyName": "status_sunnyisland_slave1",
+            "query": "",
+            "refId": "A",
+            "type": "command"
+          }
+        ],
+        "title": "Sunny Island Slave 1 Status",
+        "type": "stat"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Error": {
+                    "color": "dark-red",
+                    "index": 2,
+                    "text": "ERROR"
+                  },
+                  "Operating": {
+                    "color": "dark-green",
+                    "index": 0,
+                    "text": "OK"
+                  },
+                  "Standby": {
+                    "color": "blue",
+                    "index": 1,
+                    "text": "STANDBY"
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "match": "null+nan",
+                  "result": {
+                    "color": "dark-yellow",
+                    "index": 3,
+                    "text": "UNKNOWN"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 3,
+          "x": 3,
+          "y": 24
+        },
+        "id": 6,
+        "libraryPanel": {
+          "description": "",
+          "meta": {
+            "connectedDashboards": 1,
+            "created": "2023-05-03T03:02:20Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "General",
+            "folderUid": "",
+            "updated": "2023-05-03T03:02:20Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "Sunny Island Master Status",
+          "type": "stat",
+          "uid": "77pS1by4z",
+          "version": 1
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "/^status_sunnyisland_master$/",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "command": "get",
+            "keyName": "status_sunnyisland_master",
+            "query": "",
+            "refId": "A",
+            "type": "command"
+          }
+        ],
+        "title": "Sunny Island Master Status",
+        "type": "stat"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Fault": {
+                    "color": "dark-red",
+                    "index": 1,
+                    "text": "FAULT"
+                  },
+                  "Off": {
+                    "color": "super-light-blue",
+                    "index": 2,
+                    "text": "OFF"
+                  },
+                  "Ok": {
+                    "color": "dark-green",
+                    "index": 0,
+                    "text": "OK"
+                  },
+                  "Warning": {
+                    "color": "dark-yellow",
+                    "index": 3,
+                    "text": "WARN"
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "match": "null+nan",
+                  "result": {
+                    "color": "dark-orange",
+                    "index": 4,
+                    "text": "UNKNOWN"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 3,
+          "x": 6,
+          "y": 24
+        },
+        "id": 10,
+        "libraryPanel": {
+          "description": "",
+          "meta": {
+            "connectedDashboards": 1,
+            "created": "2023-05-03T03:19:24Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "General",
+            "folderUid": "",
+            "updated": "2023-05-03T03:19:24Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "Sunny Boy 1 Health",
+          "type": "stat",
+          "uid": "zGYVbxsVz",
+          "version": 1
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "/^health_sunnyboy1$/",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "command": "get",
+            "keyName": "health_sunnyboy1",
+            "query": "",
+            "refId": "A",
+            "type": "command"
+          }
+        ],
+        "title": "Sunny Boy 1 Health",
+        "type": "stat"
+      },
+      {
+        "datasource": null,
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "Fault": {
+                    "color": "dark-red",
+                    "index": 1,
+                    "text": "FAULT"
+                  },
+                  "Off": {
+                    "color": "super-light-blue",
+                    "index": 2,
+                    "text": "OFF"
+                  },
+                  "Ok": {
+                    "color": "dark-green",
+                    "index": 0,
+                    "text": "OK"
+                  },
+                  "Warning": {
+                    "color": "dark-yellow",
+                    "index": 3,
+                    "text": "WARN"
+                  }
+                },
+                "type": "value"
+              },
+              {
+                "options": {
+                  "match": "null+nan",
+                  "result": {
+                    "color": "dark-orange",
+                    "index": 4,
+                    "text": "UNKNOWN"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 3,
+          "x": 9,
+          "y": 24
+        },
+        "id": 12,
+        "libraryPanel": {
+          "description": "",
+          "meta": {
+            "connectedDashboards": 1,
+            "created": "2023-05-03T03:23:16Z",
+            "createdBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            },
+            "folderName": "General",
+            "folderUid": "",
+            "updated": "2023-05-03T03:23:16Z",
+            "updatedBy": {
+              "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+              "id": 1,
+              "name": "admin"
+            }
+          },
+          "name": "Sunny Boy 2 Health",
+          "type": "stat",
+          "uid": "74ytxxy4k",
+          "version": 1
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "/^health_sunnyboy2$/",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "8.2.6",
+        "targets": [
+          {
+            "command": "get",
+            "keyName": "health_sunnyboy2",
+            "query": "",
+            "refId": "A",
+            "type": "command"
+          }
+        ],
+        "title": "Sunny Boy 2 Health",
+        "type": "stat"
+      }
+    ],
+    "schemaVersion": 32,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "PV Snapshot",
+    "uid": "3gWZ5xy4k",
+    "version": 8
+  }
