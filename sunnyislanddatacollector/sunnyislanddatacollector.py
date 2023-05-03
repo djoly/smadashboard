@@ -2,11 +2,20 @@ import paho.mqtt.client as mqtt
 from influxdb_client import InfluxDBClient, Point
 from datetime import datetime
 import argparse
-import logging
+import logging, logging.handlers, os
 import json
 import redis
 
-logger = logging.getLogger("Save Sunny Island Data Collector Script")
+logFilename = os.getenv('LOG_FILENAME', '/var/log/app/sunnyislanddatacollector.out')
+
+logger = logging.getLogger(__name__)
+handler = logging.handlers.RotatingFileHandler(logFilename, maxBytes=524288, backupCount=5)
+
+formatter = logging.Formatter(
+    '%(asctime)s [%(name)-12s] %(levelname)-8s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(int(os.getenv("LOG_LEVEL", logging.INFO)))
 
 parser = argparse.ArgumentParser(description="SMA Sunny Island Data Collection Shell")
 parser.add_argument("--mqtthost",help="The hostname of the MQTT server", default="localhost")
@@ -23,37 +32,40 @@ parser.add_argument("-d", help="Enable debug logging of received mqtt messages",
 args = parser.parse_args()
 
 def saveDataToRedis(invId: str, host: str, password: str, data: dict):
-    if args.d:
-        print(f'Going to write data to redis: {data}')
-        logger.debug(f'Going to write data to redis: {data}')
-    r = redis.Redis(host=host, port=6379, username="default", password=password,decode_responses=True)
-    for name, value in data.items():
-        r.set(f"{name}_{invId}", value)
+    try:
+
+        r = redis.Redis(host=host, port=6379, username="default", password=password,decode_responses=True)
+        for name, value in data.items():
+            r.set(f"{name}_{invId}", value)
+    except:
+        logger.error("Error saving data to redis.")
 
 def savePVDataToInfluxDb(data: dict, hosturl: str, bucket: str, org: str, token: str, ts: datetime):
-    with InfluxDBClient(url=hosturl, token=token, org=org) as _client:
-        with _client.write_api() as _write_client:
+    try:
+        with InfluxDBClient(url=hosturl, token=token, org=org) as _client:
+            with _client.write_api() as _write_client:
 
-
-            _write_client.write(bucket, org, Point("ac_measurements")
-                .field("watts", round(data["values"]["Pac"] * 1000))
-                .field("frequency", round(data["values"]["Fac"],2))
-                .field("simaster_watts", round(data["values"]["InvPwrAt"] * 1000))
-                .field("simaster_amps", round(data["values"]["InvCur"],2))
-                .field("simaster_voltage", round(data["values"]["InvVtg"],3))
-                .field("sislave1_watts", round(data["values"]["InvPwrAtSlv1"] * 1000))
-                .field("sislave1_amps", round(data["values"]["InvCurSlv1"],2))
-                .field("sislave1_voltage", round(data["values"]["InvVtgSlv1"],3))
-                .time(ts)
-                )
-            
-            _write_client.write(bucket, org, Point("battery_measurements")
-                .field("voltage", round(data["values"]["BatVtg"],3))
-                .field("soc", round(data["values"]["BatSoc"],2))
-                .field("temp", round(data["values"]["BatTmp"],2))
-                .field("total_current", round(data["values"]["TotBatCur"],3))
-                .time(ts)
-                )
+                _write_client.write(bucket, org, Point("ac_measurements")
+                    .field("watts", round(data["values"]["Pac"] * 1000))
+                    .field("frequency", round(data["values"]["Fac"],2))
+                    .field("simaster_watts", round(data["values"]["InvPwrAt"] * 1000))
+                    .field("simaster_amps", round(data["values"]["InvCur"],2))
+                    .field("simaster_voltage", round(data["values"]["InvVtg"],3))
+                    .field("sislave1_watts", round(data["values"]["InvPwrAtSlv1"] * 1000))
+                    .field("sislave1_amps", round(data["values"]["InvCurSlv1"],2))
+                    .field("sislave1_voltage", round(data["values"]["InvVtgSlv1"],3))
+                    .time(ts)
+                    )
+                
+                _write_client.write(bucket, org, Point("battery_measurements")
+                    .field("voltage", round(data["values"]["BatVtg"],3))
+                    .field("soc", round(data["values"]["BatSoc"],2))
+                    .field("temp", round(data["values"]["BatTmp"],2))
+                    .field("total_current", round(data["values"]["TotBatCur"],3))
+                    .time(ts)
+                    )
+    except:
+        logger.error("Error saving data to influxdb.")
 
 def write_data(data):
 
@@ -79,23 +91,26 @@ def on_message(client, userdata, msg):
     data = json.loads(msg.payload)
     write_data(data)
 
-    if args.d:
-        logger.debug(msg.topic+" "+str(msg.payload))
+    logger.debug(msg.topic+" "+str(msg.payload))
     
 def main():
+    try:
 
-    client = mqtt.Client()
-    client.on_connect = on_connect
-    client.on_message = on_message
+        client = mqtt.Client()
+        client.on_connect = on_connect
+        client.on_message = on_message
 
-    client.connect(args.mqtthost, args.mqttport, 60)
+        client.connect(args.mqtthost, args.mqttport, 60)
 
-    # Blocking call that processes network traffic, dispatches callbacks and
-    # handles reconnecting.
-    # Other loop*() functions are available that give a threaded interface and a
-    # manual interface.
-    client.loop_forever()
+        # Blocking call that processes network traffic, dispatches callbacks and
+        # handles reconnecting.
+        # Other loop*() functions are available that give a threaded interface and a
+        # manual interface.
+        client.loop_forever()
 
+    except:
+        logger.error("Unexpected error")
+        return -1
     return 0
 
 if __name__ == "__main__":

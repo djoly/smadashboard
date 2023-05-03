@@ -5,11 +5,22 @@ import time, pytz
 import astral
 from astral.sun import sunrise, sunset
 import argparse
-import logging
+import logging, logging.handlers
 import redis
+import os
 from common import *
 
-logger = logging.getLogger("Save Sunny Boy Power Data")
+logFilename = os.getenv('LOG_FILENAME', '/var/log/app/sunnyboydatacollector.out')
+
+logger = logging.getLogger(__name__)
+handler = logging.handlers.RotatingFileHandler(logFilename, maxBytes=524288, backupCount=5)
+
+formatter = logging.Formatter(
+    '%(asctime)s [%(name)-12s] %(levelname)-8s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(int(os.getenv("LOG_LEVEL", logging.INFO)))
+
 def getPVData(host: str) -> dict | None:
 
     try:
@@ -42,16 +53,21 @@ def getPVData(host: str) -> dict | None:
         return None
 
 def saveDataToRedis(invId: str, host: str, password: str, data: dict):
-    r = redis.Redis(host=host, port=6379, username="default", password=password,decode_responses=True)
-    for name, value in data.items():
-        r.set(f"{name}_{invId}", value)
+    try:
+        r = redis.Redis(host=host, port=6379, username="default", password=password,decode_responses=True)
+        for name, value in data.items():
+            r.set(f"{name}_{invId}", value)
+    except:
+        logger.error("Error when saving data to redis")
 
 
 def savePVDataToInfluxDb(invId: str, data: dict, hosturl: str, bucket: str, org: str, token: str, ts: datetime):
-    with InfluxDBClient(url=hosturl, token=token, org=org) as _client:
-        with _client.write_api() as _write_client:
 
-            _write_client.write(bucket, org, Point("pv_ac_measurements")
+    try:
+        with InfluxDBClient(url=hosturl, token=token, org=org) as _client:
+            with _client.write_api() as _write_client:
+
+                _write_client.write(bucket, org, Point("pv_ac_measurements")
                                 .tag("inv_id", invId)
                                 .field("grid_total_watts", data["gridTotalW"])
                                 .field("grid_total_amps", data["gridTotalA"])
@@ -64,7 +80,7 @@ def savePVDataToInfluxDb(invId: str, data: dict, hosturl: str, bucket: str, org:
                                 .time(ts)
                                 )
             
-            _write_client.write(bucket, org, Point("pv_dc_measurements")
+                _write_client.write(bucket, org, Point("pv_dc_measurements")
                                 .tag("inv_id", invId)
                                 .field("mppt1_volts", data["mppt1V"])
                                 .field("mppt2_volts", data["mppt2V"])
@@ -74,6 +90,8 @@ def savePVDataToInfluxDb(invId: str, data: dict, hosturl: str, bucket: str, org:
                                 .field("mppt3_amps", data["mppt3A"])
                                 .time(ts)
                                 )
+    except:
+        logger.error("Error saving data to influxdb")
 
 
 parser = argparse.ArgumentParser(description="SMA PV Data Collection Shell")
@@ -101,11 +119,15 @@ def main():
         sunrise_time = sunrise(ob, now)
 
         daytime = now > sunrise_time and now < sunset_time
+
+        logger.debug(f'Current time UTC: {now}, Sunrise UTC: {sunrise_time}, Sunset UTC: {sunset_time}')
+
         # If not daytime, sleep until sunrise
         if not daytime:
             sleep_seconds = (sunrise_time - now).seconds
             logger.info(f'Nighttime. Will stop recording data for {sleep_seconds} seconds until sunrise at {sunrise_time}')
             time.sleep(sleep_seconds)
+            continue
 
         start = time.time()
         if (args.t):

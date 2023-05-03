@@ -2,3 +2,5 @@ __pycache__
 devices/*
 mosquitto/data/*
 mosquitto/log/*
+logs/*out
+

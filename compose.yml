@@ -103,7 +103,6 @@ services:
     container_name: sunnyislanddatacollector
     build:
       context: ./sunnyislanddatacollector
-      dockerfile: Dockerfile.yml
     network_mode: host
     depends_on:
       - redis
@@ -111,12 +110,16 @@ services:
     profiles:
       - test
       - prod
+    environment: #20 = INFO, 10 = DEBUG, WARN = 30
+        LOG_LEVEL: 10
+    volumes:
+      - "./logs:/var/log/app"
     command:
       - /bin/bash
       - -c
       - |
         cd /app
-        python3 sunnyislanddatacollector.py --mqtttopic "sunnyisland/1260000000" --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data
+        python3 -u sunnyislanddatacollector.py --mqtttopic "sunnyisland/1260000000" --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data
 
   mocksunnyislanddata:
     container_name: mocksunnyislanddata
@@ -140,57 +143,91 @@ services:
     container_name: sunnyboydatacollector
     build:
       context: ./sunnyboydatacollector
-      dockerfile: Dockerfile.yml
     network_mode: host
     depends_on:
       - redis
       - influxdb
     profiles:
       - prod
+    environment: #20 = INFO, 10 = DEBUG, WARN = 30
+        LOG_LEVEL: 20
+        LOG_FILENAME: "/var/log/app/sunnyboydatacollector.out"
+    volumes:
+      - "./logs:/var/log/app"
     command:
       - /bin/bash
       - -c
       - |
         cd /app
-        python3 sunnyboydatacollector.py --sunnyboyhost sma3000000001 --invid sunnyboy1 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86
-        python3 sunnyboydatacollector.py --sunnyboyhost sma3000000002 --invid sunnyboy2 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86
+        python3 -u sunnyboydatacollector.py --sunnyboyhost sma3000000001 --invid sunnyboy1 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86
+
+  sunnyboydatacollector2:
+    container_name: sunnyboydatacollector2
+    build:
+      context: ./sunnyboydatacollector
+    network_mode: host
+    depends_on:
+      - redis
+      - influxdb
+    profiles:
+      - prod
+    environment: #20 = INFO, 10 = DEBUG, WARN = 30
+        LOG_LEVEL: 20
+        LOG_FILENAME: "/var/log/app/sunnyboydatacollector2.out"
+    volumes:
+      - "./logs:/var/log/app"
+    command:
+      - /bin/bash
+      - -c
+      - |
+        cd /app
+        python3 -u sunnyboydatacollector.py --sunnyboyhost sma3000000002 --invid sunnyboy2 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86
+
 
   #This container runs the same scripts as the sunnyboydatacollector container, but it passes the -t flag in when triggering the script.
   mocksunnyboydatacollector:
     container_name: mocksunnyboydatacollector
     build:
       context: ./sunnyboydatacollector
-      dockerfile: Dockerfile.yml
     network_mode: host
     depends_on:
       - redis
       - influxdb
     profiles:
       - test
+    environment: #20 = INFO, 10 = DEBUG, WARN = 30
+        LOG_LEVEL: 10
+        LOG_FILENAME: "/var/log/app/mocksunnyboydatacollector.out"
+    volumes:
+      - "./logs:/var/log/app"
     command:
       - /bin/bash
       - -c
       - |
         cd /app
-        python3 sunnyboydatacollector.py --sunnyboyhost sma3000000001 --invid sunnyboy1 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86 -t
+        python3 -u sunnyboydatacollector.py --sunnyboyhost sma3000000001 --invid sunnyboy1 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86 -t
 
   mocksunnyboydatacollector2:
     container_name: mocksunnyboydatacollector2
     build:
       context: ./sunnyboydatacollector
-      dockerfile: Dockerfile.yml
     network_mode: host
     depends_on:
       - redis
       - influxdb
     profiles:
       - test
+    environment: #20 = INFO, 10 = DEBUG, WARN = 30
+        LOG_LEVEL: 10
+        LOG_FILENAME: "/var/log/app/mocksunnyboydatacollector2.out"
+    volumes:
+      - "./logs:/var/log/app"
     command:
       - /bin/bash
       - -c
       - |
         cd /app
-        python3 sunnyboydatacollector.py --sunnyboyhost sma3000000002 --invid sunnyboy2 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86 -t
+        python3 -u sunnyboydatacollector.py --sunnyboyhost sma3000000002 --invid sunnyboy2 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86 -t
 
 
 volumes:
