@@ -91,30 +91,6 @@
         "y": 1
       },
       "id": 24,
-      "libraryPanel": {
-        "description": "",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T03:51:28Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T14:45:01Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "Current Sunny Boy 1 Power (W)",
-        "type": "stat",
-        "uid": "1CKzfxyVk",
-        "version": 3
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -192,30 +168,6 @@
         "y": 1
       },
       "id": 26,
-      "libraryPanel": {
-        "description": "",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T03:51:48Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T14:45:29Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "Current Sunny Boy 2 Power (W)",
-        "type": "stat",
-        "uid": "Akezfbs4z",
-        "version": 3
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -274,30 +226,6 @@
         "y": 1
       },
       "id": 32,
-      "libraryPanel": {
-        "description": "",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T04:03:29Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T04:03:29Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "Current Sunny Island Master Power (W)",
-        "type": "stat",
-        "uid": "Kvcyfxs4z",
-        "version": 1
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -352,30 +280,6 @@
         "y": 6
       },
       "id": 36,
-      "libraryPanel": {
-        "description": "Total power produced by Sunny Boy 1 today",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T04:15:44Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T04:15:44Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "Sunny Boy 1 Today",
-        "type": "stat",
-        "uid": "_9wpYxsVk",
-        "version": 1
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -433,30 +337,6 @@
         "y": 6
       },
       "id": 38,
-      "libraryPanel": {
-        "description": "Total power produced by Sunny Boy 1 today",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T04:15:51Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T04:15:51Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "Sunny Boy 2 Today",
-        "type": "stat",
-        "uid": "lmkhYbs4z",
-        "version": 1
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -518,30 +398,6 @@
         "y": 6
       },
       "id": 34,
-      "libraryPanel": {
-        "description": "",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T04:03:15Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T04:03:15Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "Current Sunny Island Slave 1 Power (W)",
-        "type": "stat",
-        "uid": "94qPBbsVk",
-        "version": 1
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -596,30 +452,6 @@
         "y": 11
       },
       "id": 40,
-      "libraryPanel": {
-        "description": "",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T04:30:23Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T04:30:23Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "L1 Voltage",
-        "type": "stat",
-        "uid": "vffNEbs4z",
-        "version": 1
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -674,30 +506,6 @@
         "y": 11
       },
       "id": 42,
-      "libraryPanel": {
-        "description": "",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T04:30:16Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T04:30:16Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "L2 Voltage",
-        "type": "stat",
-        "uid": "nDtHPbyVk",
-        "version": 1
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -756,30 +564,6 @@
         "y": 11
       },
       "id": 30,
-      "libraryPanel": {
-        "description": "",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T02:17:34Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T03:57:56Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "Grid Frequency",
-        "type": "stat",
-        "uid": "0jtLhxsVk",
-        "version": 2
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -871,30 +655,6 @@
         "y": 17
       },
       "id": 2,
-      "libraryPanel": {
-        "description": "Most recent battery state of charge reading",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T01:29:00Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T03:35:13Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "SOC",
-        "type": "stat",
-        "uid": "CCT9Kby4k",
-        "version": 2
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -953,30 +713,6 @@
         "y": 17
       },
       "id": 14,
-      "libraryPanel": {
-        "description": "",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T02:09:17Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T03:35:47Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "Current Battery Voltage",
-        "type": "stat",
-        "uid": "QoNV2xs4z",
-        "version": 3
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1035,30 +771,6 @@
         "y": 17
       },
       "id": 20,
-      "libraryPanel": {
-        "description": "",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T02:43:10Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T03:36:05Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "Current Battery Temperature",
-        "type": "stat",
-        "uid": "YLDMAbs4k",
-        "version": 2
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1162,30 +874,6 @@
       },
       "id": 8,
       "interval": "2m",
-      "libraryPanel": {
-        "description": "",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T03:11:49Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T04:21:37Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "Sunny Island Slave 1 Status",
-        "type": "stat",
-        "uid": "sF8U1xy4z",
-        "version": 2
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1278,30 +966,6 @@
         "y": 24
       },
       "id": 6,
-      "libraryPanel": {
-        "description": "",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T03:02:20Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T03:02:20Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "Sunny Island Master Status",
-        "type": "stat",
-        "uid": "77pS1by4z",
-        "version": 1
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1399,30 +1063,6 @@
         "y": 24
       },
       "id": 10,
-      "libraryPanel": {
-        "description": "",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T03:19:24Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T03:19:24Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "Sunny Boy 1 Health",
-        "type": "stat",
-        "uid": "zGYVbxsVz",
-        "version": 1
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1520,30 +1160,6 @@
         "y": 24
       },
       "id": 12,
-      "libraryPanel": {
-        "description": "",
-        "meta": {
-          "connectedDashboards": 1,
-          "created": "2023-05-03T03:23:16Z",
-          "createdBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          },
-          "folderName": "General",
-          "folderUid": "",
-          "updated": "2023-05-03T03:23:16Z",
-          "updatedBy": {
-            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-            "id": 1,
-            "name": "admin"
-          }
-        },
-        "name": "Sunny Boy 2 Health",
-        "type": "stat",
-        "uid": "74ytxxy4k",
-        "version": 1
-      },
       "options": {
         "colorMode": "value",
         "graphMode": "area",
