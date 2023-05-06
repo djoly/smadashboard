@@ -31,6 +31,8 @@ parser.add_argument("-t", help="Test JSON parsing and writing",action="store_con
 parser.add_argument("-d", help="Enable debug logging of received mqtt messages", action="store_const", const=True, default=False)
 args = parser.parse_args()
 
+logger.info(f"Running with args: {args}")
+
 def saveDataToRedis(invId: str, host: str, password: str, data: dict):
     try:
 
@@ -38,7 +40,7 @@ def saveDataToRedis(invId: str, host: str, password: str, data: dict):
         for name, value in data.items():
             r.set(f"{name}_{invId}", value)
     except:
-        logger.error("Error saving data to redis.")
+        logger.error("Error saving data to redis.", exc_info=1)
 
 def savePVDataToInfluxDb(data: dict, hosturl: str, bucket: str, org: str, token: str, ts: datetime):
     try:
@@ -65,7 +67,7 @@ def savePVDataToInfluxDb(data: dict, hosturl: str, bucket: str, org: str, token:
                     .time(ts)
                     )
     except:
-        logger.error("Error saving data to influxdb.")
+        logger.error("Error saving data to influxdb.",exc_info=1)
 
 def write_data(data):
 
@@ -109,7 +111,7 @@ def main():
         client.loop_forever()
 
     except:
-        logger.error("Unexpected error")
+        logger.error("Unexpected error", exc_info=1)
         return -1
     return 0
 

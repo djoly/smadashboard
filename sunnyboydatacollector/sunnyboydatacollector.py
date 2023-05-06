@@ -49,7 +49,7 @@ def getPVData(host: str) -> dict | None:
         client.close()
         return data
     except:
-        logger.error("Error trying to retrieve data from Sunny Boy")
+        logger.error("Error trying to retrieve data from Sunny Boy", exc_info=1)
         return None
 
 def saveDataToRedis(invId: str, host: str, password: str, data: dict):
@@ -58,7 +58,7 @@ def saveDataToRedis(invId: str, host: str, password: str, data: dict):
         for name, value in data.items():
             r.set(f"{name}_{invId}", value)
     except:
-        logger.error("Error when saving data to redis")
+        logger.error("Error when saving data to redis", exc_info=1)
 
 
 def savePVDataToInfluxDb(invId: str, data: dict, hosturl: str, bucket: str, org: str, token: str, ts: datetime):
@@ -91,7 +91,7 @@ def savePVDataToInfluxDb(invId: str, data: dict, hosturl: str, bucket: str, org:
                                 .time(ts)
                                 )
     except:
-        logger.error("Error saving data to influxdb")
+        logger.error("Error saving data to influxdb", exc_info=1)
 
 
 parser = argparse.ArgumentParser(description="SMA PV Data Collection Shell")
@@ -108,6 +108,8 @@ parser.add_argument("-t", action="store_const", const=True, default=False)
 parser.add_argument("--lat", help="The latitude of the inverter", type=float, required=True)
 parser.add_argument("--lon", help="The longitude of the inverter", type=float, required=True)
 args = parser.parse_args()
+
+logger.info(f"Running with args: {args}")
 
 def main():
 
