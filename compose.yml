@@ -3,8 +3,10 @@
 # will be used by the data collector scripts and grafana.
 # $ docker compose up influxdb
 #
-# $ docker compose --profile test up
-# $ docker compose --profile prod up
+# $ docker-compose --env-file ./.env --profile prod up -d
+# $ docker-compose --env-file ./.env --profile test up -d
+# $ docker-compose --env-file ./.env --profile prod up -d
+# $ docker-compose --env-file ./.env --profile prod up -d sunnyboydatacollector
 # 
 version: "3.7"
 services:
@@ -19,13 +21,13 @@ services:
       - redis
       - influxdb
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=nimda1234
-      - GF_INSTALL_PLUGINS=redis-datasource
-    ports:
-      - "3000:3000"
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
+      - GF_AUTH_ANONYMOUS_ENABLED=${GF_AUTH_ANONYMOUS_ENABLED}
+      - GF_AUTH_ANONYMOUS_ORG_NAME=${GF_AUTH_ANONYMOUS_ORG_NAME}
     volumes:
       - "grafana_data:/var/lib/grafana"
+      - "./grafana/plugins:/var/lib/grafana/plugins"
     
   influxdb: 
     image: docker.io/influxdb:2.7.0-alpine
@@ -36,13 +38,11 @@ services:
     restart: always
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=admin
-      - DOCKER_INFLUXDB_INIT_PASSWORD=nimda1234
-      - DOCKER_INFLUXDB_INIT_ORG=pv_data
-      - DOCKER_INFLUXDB_INIT_BUCKET=pv_data
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=ovMm-o8jjzQpAjRsDUNrm5ZK_XexNqiguld37aYfte2IYKtOM8VID9MUOsipJTSuKp_IrnHLSLNjnorlqau0Tg==
-    ports:
-      - "8086:8086"
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USER}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_ORG}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_BUCKET}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
     volumes:
       - 'influxdb_data:/var/lib/influxdb2'
 
@@ -55,9 +55,7 @@ services:
     restart: always
     environment:
       - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
-      - REDIS_PASSWORD=nimda1234
-    ports:
-      - '6379:6379'
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
     volumes:
       - 'redis_data:/bitnami/redis/data'
 
@@ -68,9 +66,6 @@ services:
       - test
       - prod
     restart: always
-    ports:
-      - "1883:1883"
-      - "9001:9001"
     volumes:
       - "./mosquitto/data:/mosquitto/data"
       - "./mosquitto/log:/mosquitto/log"
@@ -93,11 +88,11 @@ services:
         YASDI_CONFIG: "/etc/yasdi2mqtt/yasdi.ini"
         YASDI_DRIVER_ID: 0
         YASDI_MAX_DEVICE_COUNT: 1
-        YASDI_UPDATE_INTERVAL: 15
-        MQTT_TOPIC_PREFIX: "sunnyisland"
-        MQTT_SERVER: "localhost"
+        YASDI_UPDATE_INTERVAL: ${YASDI_UPDATE_INTERVAL}
+        MQTT_TOPIC_PREFIX: ${MQTT_TOPIC_PREFIX}
+        MQTT_SERVER: ${MQTT_HOST}
         MQTT_PORT: 1883
-        LOG_LEVEL: 0 #debug level
+        LOG_LEVEL: ${YASDI_LOG_LEVEL}
 
   sunnyislanddatacollector:
     container_name: sunnyislanddatacollector
@@ -107,6 +102,7 @@ services:
     depends_on:
       - redis
       - influxdb
+      - mosquitto
     profiles:
       - test
       - prod
@@ -119,13 +115,12 @@ services:
       - -c
       - |
         cd /app
-        python3 -u sunnyislanddatacollector.py --mqtttopic "sunnyisland/1260000000" --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data
+        python3 -u sunnyislanddatacollector.py --mqtttopic ${MQTT_TOPIC} --redishost ${REDIS_HOST} --redispassword ${REDIS_PASSWORD} --influxdbhost ${INFLUXDB_URL} --influxdbtoken ${INFLUXDB_TOKEN} --influxdborg ${INFLUXDB_ORG} --influxdbbucket ${INFLUXDB_BUCKET}
 
   mocksunnyislanddata:
     container_name: mocksunnyislanddata
     build:
       context: ./mocksunnyislanddata
-      dockerfile: Dockerfile.yml
     network_mode: host
     depends_on:
       - mosquitto
@@ -136,7 +131,7 @@ services:
       - -c
       - |
         cd /app
-        python3 mocksunnyislanddatapublisher.py --mqtttopic "sunnyisland/1260000000"
+        python3 mocksunnyislanddatapublisher.py --mqtttopic ${MQTT_TOPIC}
 
 
   sunnyboydatacollector:
@@ -159,7 +154,7 @@ services:
       - -c
       - |
         cd /app
-        python3 -u sunnyboydatacollector.py --sunnyboyhost sma3000000001 --invid sunnyboy1 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86
+        python3 -u sunnyboydatacollector.py --sunnyboyhost ${SUNNYBOY1_HOST} --invid ${SUNNYBOY1_INVID} --redishost ${REDIS_HOST} --redispassword ${REDIS_PASSWORD} --influxdbhost ${INFLUXDB_URL} --influxdbtoken ${INFLUXDB_TOKEN} --influxdborg ${INFLUXDB_ORG} --influxdbbucket ${INFLUXDB_BUCKET} --lat ${LAT} --lon ${LON} --repeat ${SUNNYBOY_REPEAT_INTERVAL}
 
   sunnyboydatacollector2:
     container_name: sunnyboydatacollector2
@@ -181,7 +176,7 @@ services:
       - -c
       - |
         cd /app
-        python3 -u sunnyboydatacollector.py --sunnyboyhost sma3000000002 --invid sunnyboy2 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86
+        python3 -u sunnyboydatacollector.py --sunnyboyhost ${SUNNYBOY2_HOST} --invid ${SUNNYBOY2_INVID} --redishost ${REDIS_HOST} --redispassword ${REDIS_PASSWORD} --influxdbhost ${INFLUXDB_URL} --influxdbtoken ${INFLUXDB_TOKEN} --influxdborg ${INFLUXDB_ORG} --influxdbbucket ${INFLUXDB_BUCKET} --lat ${LAT} --lon ${LON} --repeat ${SUNNYBOY_REPEAT_INTERVAL}
 
 
   #This container runs the same scripts as the sunnyboydatacollector container, but it passes the -t flag in when triggering the script.
@@ -205,7 +200,7 @@ services:
       - -c
       - |
         cd /app
-        python3 -u sunnyboydatacollector.py --sunnyboyhost sma3000000001 --invid sunnyboy1 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86 -t
+        python3 -u sunnyboydatacollector.py --sunnyboyhost ${SUNNYBOY1_HOST} --invid ${SUNNYBOY1_INVID} --redishost ${REDIS_HOST} --redispassword ${REDIS_PASSWORD} --influxdbhost ${INFLUXDB_URL} --influxdbtoken ${INFLUXDB_TOKEN} --influxdborg ${INFLUXDB_ORG} --influxdbbucket ${INFLUXDB_BUCKET} --lat ${LAT} --lon ${LON} --repeat ${SUNNYBOY_REPEAT_INTERVAL} -t
 
   mocksunnyboydatacollector2:
     container_name: mocksunnyboydatacollector2
@@ -227,7 +222,7 @@ services:
       - -c
       - |
         cd /app
-        python3 -u sunnyboydatacollector.py --sunnyboyhost sma3000000002 --invid sunnyboy2 --redishost localhost --redispassword nimda1234 --influxdbhost http://localhost:8086 --influxdbtoken H-FM6r88G_9AQjHYBZFX0Ipg4knIpr2Kw7rZK24HRUMw0DaefTuuCnZerXXjgjMP3CGqsZ95xEEz28WsC8BAjA== --influxdborg pv_data --influxdbbucket pv_data --lat 36.17 --lon -82.86 -t
+        python3 -u sunnyboydatacollector.py --sunnyboyhost ${SUNNYBOY2_HOST} --invid ${SUNNYBOY2_INVID} --redishost ${REDIS_HOST} --redispassword ${REDIS_PASSWORD} --influxdbhost ${INFLUXDB_URL} --influxdbtoken ${INFLUXDB_TOKEN} --influxdborg ${INFLUXDB_ORG} --influxdbbucket ${INFLUXDB_BUCKET} --lat ${LAT} --lon ${LON} --repeat ${SUNNYBOY_REPEAT_INTERVAL} -t
 
 
 volumes:

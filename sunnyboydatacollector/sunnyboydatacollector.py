@@ -109,7 +109,7 @@ parser.add_argument("--lat", help="The latitude of the inverter", type=float, re
 parser.add_argument("--lon", help="The longitude of the inverter", type=float, required=True)
 args = parser.parse_args()
 
-logger.info(f"Running with args: {args}")
+logger.info(f'Running with args: {args}')
 
 def main():
 
