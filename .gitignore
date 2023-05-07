@@ -4,5 +4,5 @@ mosquitto/data/*
 mosquitto/log/*
 logs/*out*
 grafana/plugins/redis-datasource
-.env
+
 
